@@ -1,4 +1,5 @@
 POINTER_INPUT_DELAY = 5
+--add moves and win/lose check
 
 function board_init()
     board = {}
@@ -21,6 +22,7 @@ function pointer_bound()
 end
 
 function pointer_update()
+    --todo - rewrite that part better
     if pointer[3] ~= 0 then
         pointer[3] -= 1
         return
