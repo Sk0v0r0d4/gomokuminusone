@@ -34,4 +34,5 @@ function gameplay_draw()
 end
 
 function gameplay_update()
+    pointer_update()
 end

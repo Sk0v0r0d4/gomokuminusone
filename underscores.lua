@@ -7,6 +7,7 @@ end
 
 function _update()
     fc += 1
+    gameplay_update()
 end
 
 function _draw()
