@@ -18,9 +18,10 @@ function board_draw()
 end
 
 function pointer_draw()
-    x = (8 * pointer[1])
-    y = (8 * pointer[2])
+    x = (8 * pointer[2])
+    y = (8 * pointer[1])
     spr(36, x, y)
+    --arrow jumping animation
     spr(
         20 + (fc / 10 % 2),
         x,

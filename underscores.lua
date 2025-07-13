@@ -1,8 +1,7 @@
 function _init()
     -- frame count
     fc = 0
-    board_init()
-    pointer_init()
+    gameplay_init()
 end
 
 function _update()
@@ -11,5 +10,6 @@ function _update()
 end
 
 function _draw()
+    cls()
     gameplay_draw()
 end
