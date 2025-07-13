@@ -41,6 +41,10 @@ function pointer_update()
         end
         board[pointer[1]][pointer[2]] = player
         sfx(8)
+        n = win_check()
+        new_popup(n)
+        if n ~= 0 then
+        end
         player += 1
         if player == 3 then
             player = 1
@@ -68,4 +72,46 @@ function pointer_update()
         pointer[3] = POINTER_INPUT_DELAY
         sfx(10)
     end
+end
+
+function win_check()
+    local delta = { 0, 1 }
+    for i = 1, 14 do
+        local v = { i, 1 }
+        local prev = -1
+        local count = 1
+        for j = 1, 14 do
+            local current = board[v[1]][v[2]]
+            if current == prev and current ~= 0 then
+                count += 1
+            else
+                count = 1
+            end
+            prev = current
+            if count == 5 then
+                return prev
+            end
+            sum(v, delta)
+        end
+    end
+    delta = { 1, 0 }
+    for i = 1, 14 do
+        local v = { 1, i }
+        local prev = -1
+        local count = 1
+        for j = 1, 14 do
+            local current = board[v[1]][v[2]]
+            if current == prev and current ~= 0 then
+                count += 1
+            else
+                count = 1
+            end
+            prev = current
+            if count == 5 then
+                return prev
+            end
+            sum(v, delta)
+        end
+    end
+    return 0
 end

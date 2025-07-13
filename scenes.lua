@@ -31,7 +31,7 @@ function board_draw()
         "'s move",
         8,
         (15 * 8) + 2,
-        0
+        15
     )
 end
 
