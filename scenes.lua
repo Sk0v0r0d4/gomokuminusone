@@ -15,6 +15,24 @@ function board_draw()
             end
         end
     end
+    rectfill(
+        0,
+        128,
+        36,
+        120,
+        2
+    )
+    spr(
+        3 + player,
+        0,
+        15 * 8
+    )
+    print(
+        "'s move",
+        8,
+        (15 * 8) + 2,
+        0
+    )
 end
 
 function pointer_draw()

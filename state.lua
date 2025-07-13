@@ -33,33 +33,39 @@ function pointer_update()
         pointer[3] -= 1
         return
     elseif btn(❎) then
+        pointer[3] = POINTER_INPUT_DELAY
         if board[pointer[1]][pointer[2]] != 0 then
-            --popup
+            new_popup("no u don't")
+            sfx(9)
             return
         end
         board[pointer[1]][pointer[2]] = player
+        sfx(8)
         player += 1
         if player == 3 then
             player = 1
         end
-        pointer[3] = POINTER_INPUT_DELAY
         return
     elseif btn(⬆️) then
         pointer[1] -= 1
         pointer_bound()
         pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
     elseif btn(⬇️) then
         pointer[1] += 1
         pointer_bound()
         pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
     end
     if btn(⬅️) then
         pointer[2] -= 1
         pointer_bound()
         pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
     elseif btn(➡️) then
         pointer[2] += 1
         pointer_bound()
         pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
     end
 end
