@@ -75,43 +75,81 @@ function pointer_update()
 end
 
 function win_check()
-    local delta = { 0, 1 }
+    local starts_and_deltas = {}
     for i = 1, 14 do
-        local v = { i, 1 }
-        local prev = -1
+        add(
+            starts_and_deltas, {
+                start = { i, 1 },
+                delta = { 0, 1 },
+                lenght = 14
+            }
+        ) -- horizontal
+        add(
+            starts_and_deltas, {
+                start = { 1, i },
+                delta = { 1, 0 },
+                lenght = 14
+            }
+        ) -- vertical
+        if (i > 4) then
+            -- ul to dr diagonals
+            add(
+                starts_and_deltas, {
+                    start = { 1, i },
+                    delta = { 1, -1 },
+                    lenght = i
+                }
+            )
+            if (i ~= 14) then
+                -- to not include central diagonal twice
+                add(
+                    starts_and_deltas, {
+                        start = { i, 14 },
+                        delta = { 1, -1 },
+                        lenght = 15 - i
+                    }
+                )
+            end
+        end
+        if (i < 11) then
+            -- dl to ur diagonals
+            add(
+                starts_and_deltas, {
+                    start = { 1, i },
+                    delta = { 1, 1 },
+                    lenght = 15 - i
+                }
+            )
+            if (i ~= 1) then
+                -- to not include central diagonal twice
+                add(
+                    starts_and_deltas, {
+                        start = { i, 1 },
+                        delta = { 1, 1 },
+                        lenght = 15 - i
+                    }
+                )
+            end
+        end
+    end
+    for i = 1, #starts_and_deltas do
+        local obj = starts_and_deltas[i]
         local count = 1
-        for j = 1, 14 do
+        local prev = -1
+        local v = obj.start
+        for j = 1, obj.lenght do
             local current = board[v[1]][v[2]]
             if current == prev and current ~= 0 then
                 count += 1
             else
                 count = 1
             end
-            prev = current
             if count == 5 then
                 return prev
             end
-            sum(v, delta)
-        end
-    end
-    delta = { 1, 0 }
-    for i = 1, 14 do
-        local v = { 1, i }
-        local prev = -1
-        local count = 1
-        for j = 1, 14 do
-            local current = board[v[1]][v[2]]
-            if current == prev and current ~= 0 then
-                count += 1
-            else
-                count = 1
-            end
             prev = current
-            if count == 5 then
-                return prev
-            end
-            sum(v, delta)
+            sum(v, obj.delta)
         end
     end
-    return 0
+    return -1
 end
