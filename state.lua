@@ -4,6 +4,7 @@ POINTER_INPUT_DELAY = 4
 function gameplay_init()
     board_init()
     pointer_init()
+    behavior_table_init()
     player = 1
 end
 
@@ -22,60 +23,8 @@ function pointer_init()
     pointer = { flr(rnd(14) + 1), flr(rnd(14) + 1), 0 }
 end
 
-function pointer_bound()
-    pointer[1] = (pointer[1] - 1) % 14 + 1
-    pointer[2] = (pointer[2] - 1) % 14 + 1
-end
-
-function pointer_update()
-    --todo - rewrite that part better
-    if pointer[3] ~= 0 then
-        pointer[3] -= 1
-        return
-    elseif btn(❎) then
-        pointer[3] = POINTER_INPUT_DELAY
-        if board[pointer[1]][pointer[2]] != 0 then
-            new_popup("no u don't")
-            sfx(9)
-            return
-        end
-        board[pointer[1]][pointer[2]] = player
-        sfx(8)
-        n = win_check()
-        new_popup(n)
-        if n ~= 0 then
-        end
-        player += 1
-        if player == 3 then
-            player = 1
-        end
-        return
-    elseif btn(⬆️) then
-        pointer[1] -= 1
-        pointer_bound()
-        pointer[3] = POINTER_INPUT_DELAY
-        sfx(10)
-    elseif btn(⬇️) then
-        pointer[1] += 1
-        pointer_bound()
-        pointer[3] = POINTER_INPUT_DELAY
-        sfx(10)
-    end
-    if btn(⬅️) then
-        pointer[2] -= 1
-        pointer_bound()
-        pointer[3] = POINTER_INPUT_DELAY
-        sfx(10)
-    elseif btn(➡️) then
-        pointer[2] += 1
-        pointer_bound()
-        pointer[3] = POINTER_INPUT_DELAY
-        sfx(10)
-    end
-end
-
-function win_check()
-    local starts_and_deltas = {}
+function behavior_table_init()
+    starts_and_deltas = {}
     for i = 1, 14 do
         add(
             starts_and_deltas, {
@@ -132,11 +81,66 @@ function win_check()
             end
         end
     end
+end
+
+function pointer_bound()
+    pointer[1] = (pointer[1] - 1) % 14 + 1
+    pointer[2] = (pointer[2] - 1) % 14 + 1
+end
+
+function pointer_update()
+    --todo - rewrite that part better
+    if pointer[3] ~= 0 then
+        pointer[3] -= 1
+        return
+    elseif btn(❎) then
+        pointer[3] = POINTER_INPUT_DELAY
+        if board[pointer[1]][pointer[2]] != 0 then
+            new_popup("no u don't")
+            sfx(9)
+            return
+        end
+        board[pointer[1]][pointer[2]] = player
+        sfx(8)
+        n = win_check()
+        new_popup(n)
+        if n ~= 0 then
+        end
+        player += 1
+        if player == 3 then
+            player = 1
+        end
+        return
+    elseif btn(⬆️) then
+        pointer[1] -= 1
+        pointer_bound()
+        pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
+    elseif btn(⬇️) then
+        pointer[1] += 1
+        pointer_bound()
+        pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
+    end
+    if btn(⬅️) then
+        pointer[2] -= 1
+        pointer_bound()
+        pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
+    elseif btn(➡️) then
+        pointer[2] += 1
+        pointer_bound()
+        pointer[3] = POINTER_INPUT_DELAY
+        sfx(10)
+    end
+end
+
+function win_check()
     for i = 1, #starts_and_deltas do
         local obj = starts_and_deltas[i]
         local count = 1
         local prev = -1
-        local v = obj.start
+        local v = { obj.start[1], obj.start[2] }
         for j = 1, obj.lenght do
             local current = board[v[1]][v[2]]
             if current == prev and current ~= 0 then
