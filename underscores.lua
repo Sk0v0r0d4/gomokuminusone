@@ -24,6 +24,7 @@ end
 
 function draw()
     cls()
+    bg_draw()
     gameplay_draw()
     popup_draw()
 end
