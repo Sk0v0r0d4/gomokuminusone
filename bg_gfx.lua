@@ -1,10 +1,10 @@
 gradient = {
-    0, 1, 8, 14, 15
+    0, 1, 2, 8, 14, 15
 }
 
 function bg_color(x, y)
     x = x / 2
-    local angle = fc / 1200
+    local angle = fc / 300
     -- local angle = 0
 
     local new_x = x * sin(angle) + y * cos(angle)
@@ -19,7 +19,7 @@ function bg_color(x, y)
 
     local sin_1 = abs(sin(new_x / 16) + 0.99)
     local sin_2 = abs(sin(new_y / 16) + 0.99)
-    local index = ceil((sin_1 + sin_2) * 1.2)
+    local index = ceil((sin_1 + sin_2) * 1.5)
     return gradient[index]
 end
 
